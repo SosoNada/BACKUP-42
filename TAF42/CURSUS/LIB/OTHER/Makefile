@@ -1,0 +1,112 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: socherie <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/11/11 10:51:43 by socherie          #+#    #+#              #
+#    Updated: 2022/12/12 19:29:02 by socherie         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME := libft.a
+CC := gcc
+CFLAGS := -Wall -Wextra -Werror
+SRC_DIR := ./
+SRC_FILES := ft_isalpha.c \
+	     ft_isdigit.c \
+	     ft_isalnum.c \
+	     ft_isascii.c \
+	     ft_isprint.c \
+	     ft_strlen.c \
+	     ft_strlcpy.c \
+	     ft_strlcat.c \
+	     ft_toupper.c \
+	     ft_tolower.c \
+	     ft_strchr.c \
+	     ft_atoi.c \
+	     ft_strncmp.c \
+	     ft_strnstr.c \
+	     ft_strrchr.c \
+	     ft_strdup.c \
+	     ft_memcmp.c \
+	     *ft_memchr.c \
+	     *ft_memcpy.c \
+	     *ft_memmove.c \
+	     *ft_memset.c \
+	     ft_bzero.c \
+	     *ft_calloc.c \
+	     *ft_substr.c \
+	     *ft_strjoin.c \
+	     *ft_strtrim.c \
+	     **ft_split.c \
+	     *ft_itoa.c \
+	     *ft_strmapi.c \
+	     ft_striteri.c \
+	     ft_putchar_fd.c \
+	     ft_putstr_fd.c \
+	     ft_putendl_fd.c \
+	     ft_putnbr_fd.c \
+	     ft_lstnew.c \
+	     ft_lstadd_front.c \
+	     ft_lstsize.c \
+	     ft_lstlast.c \
+	     ft_lstadd_back.c \
+	     ft_lstdelone.c \
+	     ft_lstclear.c \
+	     ft_lstiter.c \
+	     ft_lstmap.c
+		
+OBJ_FILES = $(SRC_FILES:.c=.o)
+SRCS = $(addprefix $(SRC_DIR), $(SRC_FILES))
+OBJS = $(addprefix $(SRC_DIR), $(OBJ_FILES))
+HEADER := -I ./
+LIB := ar rcs
+RM := /bin/rm -f
+
+NOC         = \033[0m
+BOLD        = \033[1m
+UNDERLINE   = \033[4m
+BLACK       = \033[1;30m
+RED         = \033[1;31m
+GREEN       = \033[1;32m
+YELLOW      = \033[1;33m
+BLUE        = \033[1;34m
+VIOLET      = \033[1;35m
+CYAN        = \033[1;36m
+WHITE       = \033[1;37m
+
+all: obj $(NAME)
+
+obj: $(SRCS) 
+
+$(SRC_DIR)%.o: $(SRC_DIR)%.c
+	@$(CC) $(CFLAGS) -c $< -o $@ $(HEADER)
+
+$(NAME): $(OBJS)
+	@$(LIB) libft.a $(OBJS)
+	@echo "==============================================================="
+	@echo "$(YELLOW)[  0%  ] (ﾉ◕ヮ◕)ﾉ*・ﾟ✧ \t$(BLUE)Compilation... Patienter.$(NOC)"
+	@echo "$(GREEN)[ 100% ] (•̀ᴗ•́)و Compilation de '$(NAME)' reussi$(NOC)"
+	@echo "==============================================================="
+
+clean:
+	@echo "==============================================================="
+	@echo "$(RED)¯\_(ツ)_/¯      Objects supprime!$(NOC)"
+	@$(RM) $(OBJS)
+	@echo "==============================================================="
+
+fclean: clean
+	@echo "==============================================================="
+	@echo "$(RED)(╯°□°）╯︵ ┻━┻  $(NAME) supprime!$(NOC)"
+	@$(RM) $(NAME)
+	@echo "==============================================================="
+
+so:
+	$(CC) -nostartfiles -fPIC $(CFLAGS) $(SRCS)
+	gcc -nostartfiles -shared -o libft.so $(OBJS)
+	
+re: fclean all
+
+.PHONY: all clean fclean re
